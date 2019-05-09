@@ -3,10 +3,101 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:EguiLab2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Library" Height="450" Width="800" MinWidth="600" MinHeight="350" Closed="MainWindow_Closed">
+    <Window.Resources>
+        <Style x:Key="itemstyle" TargetType="{x:Type ListViewItem}">
+            <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick" />
+        </Style>
+        <DataTemplate x:Key="ArrowUp">
+            <DockPanel>
+                <TextBlock HorizontalAlignment="Center" 
+                    Text="{Binding}" />
+                <Path VerticalAlignment="Center" 
+            Fill="Black" 
+            Data="M 5,5 15,5 10,0 5,5" />
+            </DockPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ArrowDown">
+            <DockPanel>
+                <TextBlock HorizontalAlignment="Center" 
+                    Text="{Binding}" />
+                <Path VerticalAlignment="Center" 
+            Fill="Black" 
+            Data="M 5,0 10,5 15,0 5,0" />
+            </DockPanel>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid Margin="10,10,10,10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Margin="10,0,10,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40*" />
+                <ColumnDefinition Width="40*" />
+                <ColumnDefinition Width="20*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid Margin="10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label x:Name="authorLabel" Content="Author"/>
+                <TextBox Grid.Column="1" x:Name="authorFilter" Height="23" Text="{Binding Author, UpdateSourceTrigger=PropertyChanged}" TextChanged="AuthorFilter_TextChanged"/>
+            </Grid>
+            <Grid Grid.Column="1" Margin="10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label x:Name="titleLabel" Content="Title"/>
+                <TextBox Grid.Column="1" x:Name="titleFilter" Height="23" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" TextChanged="TitleFilter_TextChanged"/>
+            </Grid>
+            <Grid Grid.Column="2" Margin="10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                
+                <Label x:Name="yearLabel" Content="Year"/>
+                <TextBox Grid.Column="1" x:Name="yearFilter" Height="23" Text="{Binding Year, UpdateSourceTrigger=PropertyChanged}" TextChanged="YearFilter_TextChanged" />
+            </Grid>
+            <Button x:Name="ClearFiltersButton" Grid.Column="3" Padding="10,0" Click="ClearFiltersButton_Click">Clear Filters</Button>
+        </Grid>
+        <ListView Grid.Row="1" Name="BookList" Margin="0,10,0,0" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler" ItemContainerStyle="{StaticResource itemstyle}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header = "Author" DisplayMemberBinding = "{Binding Author}" Width="250"/>
+                    <GridViewColumn Header = "Title" DisplayMemberBinding = "{Binding Title}" Width="400"/>
+                    <GridViewColumn Header = "Year" DisplayMemberBinding = "{Binding Year}" Width="120"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Grid Grid.Row="2" Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button x:Name="AddNewBookButton" Grid.Column="0" Width="Auto" Margin="10,0" Click="AddNewBookButton_Click" ClickMode="Press">
+                Add New Book
+            </Button>
+            <Button x:Name="EditSelectedBookButton" Grid.Column="1" Width="Auto" Margin="10,0" Click="EditSelectedBookButton_Click" ClickMode="Press">
+                Edit Selected Book
+            </Button>
+            <Button x:Name="DeleteSelectedBooksButton" Grid.Column="2" Width="Auto" Margin="10,0" Click="DeleteSelectedBooksButton_Click" ClickMode="Press">
+                Delete Selected Book
+            </Button>
+        </Grid>        
     </Grid>
 </Window>
